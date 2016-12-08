@@ -144,7 +144,8 @@
                 android:ems="10"
                 android:hint="@string/display_time"
                 android:id="@+id/device_edit_time"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:maxLength="4" />
                 <!--android:text="@string/display_time" />-->
         </LinearLayout>
 

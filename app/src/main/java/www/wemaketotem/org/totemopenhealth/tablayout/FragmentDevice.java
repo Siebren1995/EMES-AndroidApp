@@ -33,11 +33,11 @@ public class FragmentDevice extends Fragment implements Observer {
     private Switch sLog, sAccelero, sGyro, sTemp;
     private TextView tAccelero, tGyro, tTemp, tTime;
     private Button bDisconnect;
-//    private DiscreteSeekBar mSeekBar;
     private EditText eTime;
     private TextView tName;
     private DeviceController mDeviceController;
     private boolean measuring = false;
+    private int loggingTime = 0;
 
     /**
      * Creates a new instance of the fragment
@@ -59,7 +59,6 @@ public class FragmentDevice extends Fragment implements Observer {
         mDeviceController = DeviceController.getInstance();
         initializeWidgets(view);
         initSwitches();
-//        initSeekBar();
         initButton();
         initEditText();
     }
@@ -113,11 +112,12 @@ public class FragmentDevice extends Fragment implements Observer {
                     setClickableSwitches(true);
                     measuring = false;
                 }
-
+                // Check signed-ness in future!
+                // Check if logging time is empty?
                 byte[] msg = new byte[3];
                 msg[0] = command;
-//                msg[1] = timeHB;
-//                msg[2] = timeLB;
+                msg[1] = (byte)(loggingTime >>> 8);  // HB
+                msg[2] = (byte)(loggingTime & 0xFF); // LB
                 String debugLog = Arrays.toString(msg);
                 Log.d("message", debugLog);
                 mDeviceController.writeCharacteristic(CharacteristicName.WRITECHAR, msg);
@@ -133,31 +133,7 @@ public class FragmentDevice extends Fragment implements Observer {
         sAccelero.setChecked(true);
         sTemp.setChecked(true);
         sGyro.setChecked(true);
-//        mSeekBar.setEnabled(true);
     }
-
-    /**
-     * Init of the seekbar.
-     * It sets the listeners.
-     */
-//    private void initSeekBar() {
-//        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            int progressChanged = 0;
-//
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                progressChanged = progress;
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//                // TODO Auto-generated method stub
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {}
-//        });
-//    }
 
     /**
      * enable or disable all widgets except the log data.
@@ -193,15 +169,12 @@ public class FragmentDevice extends Fragment implements Observer {
     {
         eTime.addTextChangedListener(new TextWatcher(){
             @Override
-            public void onTextChanged(CharSequence s, int start, int count, int after)
-            {
-//                if(s.length() > 0)
-//                {
-//                    int intValue;
-//                    intValue = Integer.parseInt(s.toString());
-//                }
+            public void onTextChanged(CharSequence s, int start, int count, int after) {
+                if (s.length() > 0)
+                {
+                    loggingTime = Integer.parseInt(s.toString());
+                }
             }
-
             public void afterTextChanged(Editable s)
             {
 
