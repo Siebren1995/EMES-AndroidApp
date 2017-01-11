@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import www.wemaketotem.org.totemopenhealth.BluetoothController;
 import www.wemaketotem.org.totemopenhealth.BluetoothLeService;
+import www.wemaketotem.org.totemopenhealth.CharacteristicName;
 import www.wemaketotem.org.totemopenhealth.DeviceController;
 import www.wemaketotem.org.totemopenhealth.Observer;
 import www.wemaketotem.org.totemopenhealth.R;

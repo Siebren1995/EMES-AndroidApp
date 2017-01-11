@@ -31,8 +31,10 @@ public class Application extends AppCompatActivity implements Observer{
     private ViewPager mViewPager;
     private static final String[] INITIAL_PERMS=
             {
-                    android.Manifest.permission.ACCESS_FINE_LOCATION,
-                    android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                    android.Manifest.permission.BLUETOOTH,
+                    android.Manifest.permission.BLUETOOTH_ADMIN,    // maybe not necessary, need to check!
+                    //android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    //android.Manifest.permission.ACCESS_COARSE_LOCATION,
                     android.Manifest.permission.CAMERA
             };
 
@@ -67,7 +69,7 @@ public class Application extends AppCompatActivity implements Observer{
         {
             case 1:
             {
-                for(int i = 0; i < grantResults.length; i++)
+                for(int i : grantResults)
                 {
                     if(grantResults[i] == PackageManager.PERMISSION_DENIED)
                         Log.w("Permissions", "Permission Denied");

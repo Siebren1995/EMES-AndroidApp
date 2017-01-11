@@ -3,6 +3,7 @@ package www.wemaketotem.org.totemopenhealth;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.util.Log;
@@ -30,7 +31,9 @@ public class Metronome implements Runnable
             myContext = context;
             vib = (Vibrator) myContext.getSystemService(myContext.VIBRATOR_SERVICE);
             getBackCamera();
-            mediaPlayer = MediaPlayer.create(myContext, R.raw.drum2_ed);
+            mediaPlayer = MediaPlayer.create(myContext, R.raw.drum2_amp);
+            mediaPlayer.setVolume(0.0f, 0.0f);
+            //mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
         }
         return instance;
     }
@@ -52,7 +55,7 @@ public class Metronome implements Runnable
                         toggleTorch(50);
                         break;
                     case 2: // Vibrate
-                        vib.vibrate(50);
+                        vib.vibrate(150);
                         break;
                     default:
                         Log.e("mode", "Invalid cue mode");

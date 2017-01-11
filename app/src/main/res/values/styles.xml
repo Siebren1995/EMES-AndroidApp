@@ -28,6 +28,7 @@
 
     <style name="Device.Switch" parent="AppTheme">
         <item name="android:layout_weight">1</item>
+        <item name="android:switchMinWidth">100sp</item>
     </style>
 
     <style name="Device.Box" parent="AppTheme">
@@ -57,6 +58,7 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@drawable/text_color_selector</item>
         <item name="android:padding">16dp</item>
+        <item name="android:switchMinWidth">100sp</item>
     </style>
 
     <style name="Device.Button" parent="Button">
