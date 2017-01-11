@@ -19,7 +19,9 @@ public class Metronome implements Runnable
     private static MediaPlayer mediaPlayer;
     private static Camera camera;
     private static Camera.Parameters cameraParams;
-    private static int mode;
+    private static boolean modeVisual;
+    private static boolean modeAudible;
+    private static boolean modeHaptic;
 
     protected Metronome() {}
 
@@ -32,7 +34,7 @@ public class Metronome implements Runnable
             vib = (Vibrator) myContext.getSystemService(myContext.VIBRATOR_SERVICE);
             getBackCamera();
             mediaPlayer = MediaPlayer.create(myContext, R.raw.drum2_amp);
-            mediaPlayer.setVolume(0.0f, 0.0f);
+            mediaPlayer.setVolume(1.0f, 1.0f);
             //mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
         }
         return instance;
@@ -46,21 +48,13 @@ public class Metronome implements Runnable
             try
             {
                 long startTime = System.currentTimeMillis();
-                switch(mode)
-                {
-                    case 0: // Sound
-                        playSound();
-                        break;
-                    case 1: // Light
-                        toggleTorch(50);
-                        break;
-                    case 2: // Vibrate
-                        vib.vibrate(150);
-                        break;
-                    default:
-                        Log.e("mode", "Invalid cue mode");
-                        break;
-                }
+                if(modeVisual)
+                    toggleTorch(50);
+                if(modeAudible)
+                    playSound();
+                if(modeHaptic)
+                    vib.vibrate(150);
+
                 long endTime = System.currentTimeMillis();
                 long intermediaryTime = endTime-startTime;
                 if(intermediaryTime < sleepTime)
@@ -74,18 +68,28 @@ public class Metronome implements Runnable
         threadRunning = false;
     }
 
-    public void startPlayback(int m)
+    public void setModeVisual(boolean state)
     {
-        if (keepPlaying == true)
-            return;
+        modeVisual = state;
+    }
+
+    public void setModeAudible(boolean state)
+    {
+        modeAudible = state;
+    }
+
+    public void setModeHaptic(boolean state)
+    {
+        modeHaptic = state;
+    }
+
+    public void startPlayback()
+    {
         keepPlaying = true;
-        mode = m;
     }
 
     public void stopPlayback()
     {
-        if (keepPlaying == false)
-            return;
         keepPlaying = false;
     }
 

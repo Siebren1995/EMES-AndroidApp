@@ -25,10 +25,8 @@
     <string name="logging_time">Logging time (min)</string>
     <string name="display_time">Enter time</string>
 
-    <string-array name="spCueMode">
-        <item>Audible</item>
-        <item>Visual</item>
-        <item>Haptic</item>
-    </string-array>
+    <string name="tvVisual">Visual</string>
+    <string name="tvAudible">Audible</string>
+    <string name="tvHaptic">Haptic</string>
 
 </resources>

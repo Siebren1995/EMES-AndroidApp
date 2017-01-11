@@ -4,7 +4,8 @@ package www.wemaketotem.org.totemopenhealth;
  * Public enum for the available characteristics on the device.
  */
 public enum CharacteristicName{
-    WRITECHAR("WRITECHAR","6e400002-b5a3-f393-e0a9-e50e24dcca9e");
+    WRITECHAR("WRITECHAR","6e400002-b5a3-f393-e0a9-e50e24dcca9e"); // RX Nordic (Android -> Patch)
+    //WRITECHAR("WRITECHAR","6e400003-b5a3-f393-e0a9-e50e24dcca9e"); // TX Nordic (Patch -> Android)
 
     private final String mName, mUUID;
 

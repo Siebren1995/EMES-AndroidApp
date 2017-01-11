@@ -34,7 +34,7 @@ public class Application extends AppCompatActivity implements Observer{
                     android.Manifest.permission.BLUETOOTH,
                     android.Manifest.permission.BLUETOOTH_ADMIN,    // maybe not necessary, need to check!
                     //android.Manifest.permission.ACCESS_FINE_LOCATION,
-                    //android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION,
                     android.Manifest.permission.CAMERA
             };
 
@@ -140,7 +140,7 @@ public class Application extends AppCompatActivity implements Observer{
      */
     @Override
     public void deviceConnected() {
-        mViewPager.setCurrentItem(2);
+        mViewPager.setCurrentItem(4);
     }
 
 

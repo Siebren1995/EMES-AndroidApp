@@ -3,14 +3,17 @@ package www.wemaketotem.org.totemopenhealth.tablayout;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import java.util.concurrent.Executor;
 
@@ -23,7 +26,12 @@ public class FragmentCue extends Fragment {
     private Executor executor;
     private SeekBar sbFrequency;
     private Switch sPlayCue;
-    private Spinner spCueMode;
+    private CheckBox cbVisual;
+    private TextView tvVisual;
+    private CheckBox cbAudible;
+    private TextView tvAudible;
+    private CheckBox cbHaptic;
+    private TextView tvHaptic;
 
     public static FragmentCue newInstance() {
         return new FragmentCue();
@@ -48,11 +56,70 @@ public class FragmentCue extends Fragment {
         };
         sbFrequency = (SeekBar) getActivity().findViewById(R.id.sbFrequency);
         sPlayCue = (Switch) getActivity().findViewById(R.id.playCue);
-        spCueMode = (Spinner) getActivity().findViewById(R.id.spMode);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.spCueMode,
-                                                                            android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spCueMode.setAdapter(adapter);
+        cbVisual = (CheckBox) getActivity().findViewById(R.id.cbVisual);
+        tvVisual = (TextView) getActivity().findViewById(R.id.tvVisual);
+        cbAudible = (CheckBox) getActivity().findViewById(R.id.cbAudible);
+        tvAudible = (TextView) getActivity().findViewById(R.id.tvAudible);
+        cbHaptic = (CheckBox) getActivity().findViewById(R.id.cbHaptic);
+        tvHaptic = (TextView) getActivity().findViewById(R.id.tvHaptic);
+
+        cbVisual.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if(cbVisual.isChecked())
+                    metronome.setModeVisual(true);
+                else
+                    metronome.setModeVisual(false);
+            }
+        });
+
+        cbAudible.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if(cbAudible.isChecked())
+                    metronome.setModeAudible(true);
+                else
+                    metronome.setModeAudible(false);
+            }
+        });
+
+        cbHaptic.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if(cbHaptic.isChecked())
+                    metronome.setModeHaptic(true);
+                else
+                    metronome.setModeHaptic(false);
+            }
+        });
+
+        tvVisual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cbVisual.setChecked(!cbVisual.isChecked());
+                cbVisual.callOnClick();
+            }
+        });
+        tvAudible.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cbAudible.setChecked(!cbAudible.isChecked());
+                cbAudible.callOnClick();
+            }
+        });
+        tvHaptic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cbHaptic.setChecked(!cbHaptic.isChecked());
+                cbHaptic.callOnClick();
+            }
+        });
 
         sbFrequency.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progressChanged = 0;
@@ -80,13 +147,7 @@ public class FragmentCue extends Fragment {
         {
             if(isChecked)
             {
-                if(spCueMode.getSelectedItem().toString().equals("Audible"))
-                    metronome.startPlayback(0);
-                if(spCueMode.getSelectedItem().toString().equals("Visual"))
-                    metronome.startPlayback(1);
-                if(spCueMode.getSelectedItem().toString().equals("Haptic"))
-                    metronome.startPlayback(2);
-
+                metronome.startPlayback();
                 if(metronome.isThreadRunning() == false)
                     executor.execute(metronome);
             }

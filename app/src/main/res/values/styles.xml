@@ -65,6 +65,18 @@
 
     </style>
 
+    <style name="Cue.Checkbox" parent="AppTheme">
+        <item name="android:button">@null</item>
+        <item name="android:layout_width">75dp</item>
+        <item name="android:layout_height">75dp</item>
+        <item name="android:background">?android:attr/listChoiceIndicatorMultiple</item>
+    </style>
 
+    <style name="Cue.TextView" parent="AppTheme">
+        <item name="android:button">@null</item>
+        <item name="android:layout_width">75dp</item>
+        <item name="android:layout_height">75dp</item>
+        <item name="android:background">?android:attr/listChoiceIndicatorMultiple</item>
+    </style>
 
 </resources>

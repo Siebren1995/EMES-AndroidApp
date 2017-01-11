@@ -24,17 +24,72 @@
             style="@style/Debug.Switch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/sbFrequency"/>
-
+            android:id="@+id/sbFrequency"
+            android:thumb="@drawable/thumb_image"
+            android:minHeight="6dp"
+            android:maxHeight="6dp"/>
 
         <include layout="@layout/horizontal_line" />
 
-        <Spinner
-            style="@style/Debug.Switch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spMode"
-            android:spinnerMode="dropdown" />
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+            <CheckBox
+                style="@style/Cue.Checkbox"
+                android:id="@+id/cbVisual"/>
+
+            <TextView
+                style="@style/Device.Text"
+                android:id="@+id/tvVisual"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tvVisual"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/horizontal_line" />
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+            <CheckBox
+                style="@style/Cue.Checkbox"
+                android:id="@+id/cbAudible"/>
+
+            <TextView
+                style="@style/Device.Text"
+                android:id="@+id/tvAudible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tvAudible"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/horizontal_line" />
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+            <CheckBox
+                style="@style/Cue.Checkbox"
+                android:id="@+id/cbHaptic"/>
+
+            <TextView
+                style="@style/Device.Text"
+                android:id="@+id/tvHaptic"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tvHaptic"/>
+
+        </LinearLayout>
 
         <include layout="@layout/horizontal_line" />
 

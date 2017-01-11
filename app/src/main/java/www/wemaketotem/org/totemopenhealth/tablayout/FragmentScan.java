@@ -234,9 +234,9 @@ public class FragmentScan extends Fragment implements Subject{
                 if (!mLeDevices.contains(device)) {
                     if(device.getName() != null) {
                         String devName = device.getName().toLowerCase();
-                        if (devName.contains("c2w")){
+//                        if (devName.contains("c2w")){
                             mLeDevices.add(device);
-                        }
+//                        }
                     }
                 }
             }
