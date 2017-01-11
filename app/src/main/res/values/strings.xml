@@ -29,4 +29,6 @@
     <string name="tvAudible">Audible</string>
     <string name="tvHaptic">Haptic</string>
 
+    <string name="sb_title">BPM</string>
+
 </resources>

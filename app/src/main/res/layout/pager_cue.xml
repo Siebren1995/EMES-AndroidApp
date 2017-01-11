@@ -13,20 +13,36 @@
 
         <Switch
             style="@style/Debug.Switch"
-            android:layout_width= "match_parent"
-            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
             android:text="@string/play_cue"
             android:id="@+id/playCue"
             android:checked="false" />
 
         <include layout="@layout/horizontal_line" />
 
-        <SeekBar
-            style="@style/Debug.Switch"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/sbFrequency"
-            android:thumb="@drawable/thumb_image"/>
+            android:layout_height="75dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                style="@style/Device.Text"
+                android:text="@string/sb_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:padding="16dp"/>
+
+            <SeekBar
+                style="@style/Debug.Switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sbFrequency"
+                android:thumb="@drawable/thumb_image"/>
+
+        </LinearLayout>
 
         <include layout="@layout/horizontal_line" />
 
