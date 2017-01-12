@@ -3,6 +3,7 @@ package www.wemaketotem.org.totemopenhealth.tablayout;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import java.util.concurrent.Executor;
 
+import www.wemaketotem.org.totemopenhealth.DeviceController;
 import www.wemaketotem.org.totemopenhealth.Metronome;
 import www.wemaketotem.org.totemopenhealth.R;
 
@@ -32,6 +34,8 @@ public class FragmentCue extends Fragment {
     private TextView tvAudible;
     private CheckBox cbHaptic;
     private TextView tvHaptic;
+
+    public Switch sSmartCue;
 
     public static FragmentCue newInstance() {
         return new FragmentCue();
@@ -62,6 +66,17 @@ public class FragmentCue extends Fragment {
         tvAudible = (TextView) getActivity().findViewById(R.id.tvAudible);
         cbHaptic = (CheckBox) getActivity().findViewById(R.id.cbHaptic);
         tvHaptic = (TextView) getActivity().findViewById(R.id.tvHaptic);
+
+        sSmartCue = (Switch) getActivity().findViewById(R.id.smartCue);
+        sSmartCue.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                //DeviceController mDeviceController = getActivity().getFragmentManager().findFragmentById(R.id.)
+                //readCharacteristic
+            }
+        });
 
         cbVisual.setOnClickListener(new View.OnClickListener()
         {

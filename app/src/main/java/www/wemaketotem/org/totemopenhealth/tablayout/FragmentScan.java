@@ -115,6 +115,12 @@ public class FragmentScan extends Fragment implements Subject{
                 getActivity().unregisterReceiver(mGattUpdateReceiver);
                 notifyDisconnected();
             }
+            else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
+                Log.i("BLE", intent.getSerializableExtra(BluetoothLeService.EXTRA_DATA).toString());
+            }
+            else {
+                Log.i("BLE", action);
+            }
         }
     };
 

@@ -15,10 +15,22 @@
             style="@style/Debug.Switch"
             android:layout_width="match_parent"
             android:layout_height="75dp"
-            android:text="@string/play_cue"
+            android:text="@string/manual_cue"
             android:id="@+id/playCue"
             android:checked="false" />
 
+        <include layout="@layout/horizontal_line" />
+
+        <Switch
+            style="@style/Debug.Switch"
+            android:id="@+id/smartCue"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:text="@string/smart_cue"/>
+            <!--android:clickable="false"
+            android:enabled="false"
+            android:checked="false" />
+            -->
         <include layout="@layout/horizontal_line" />
 
         <LinearLayout

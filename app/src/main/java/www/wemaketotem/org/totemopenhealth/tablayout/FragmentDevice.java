@@ -1,5 +1,6 @@
 package www.wemaketotem.org.totemopenhealth.tablayout;
 
+import android.bluetooth.BluetoothGattDescriptor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -83,6 +84,13 @@ public class FragmentDevice extends Fragment implements Observer {
         tTemp = (TextView) view.findViewById(R.id.device_text_temp);
         tTime = (TextView) view.findViewById(R.id.device_time);
         eTime = (EditText) view.findViewById(R.id.device_edit_time);
+
+        sAccelero.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDeviceController.readCharacteristic(CharacteristicName.READCHAR);
+            }
+        });
     }
 
     /**
@@ -199,7 +207,6 @@ public class FragmentDevice extends Fragment implements Observer {
 
         ByteBuffer buffer = ByteBuffer.allocate(Long.SIZE);
         buffer.putLong(time);
-
         mDeviceController.writeCharacteristic(CharacteristicName.WRITECHAR, buffer.array());
         resetWidgets();
     }

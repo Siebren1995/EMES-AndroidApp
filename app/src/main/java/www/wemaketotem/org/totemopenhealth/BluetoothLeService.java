@@ -55,6 +55,10 @@ public class BluetoothLeService extends Service {
                 Log.i(TAG, "Disconnected from GATT server.");
                 broadcastUpdate(intentAction);
             }
+            else
+            {
+                Log.i("BLE", String.valueOf(newState));
+            }
         }
 
         @Override

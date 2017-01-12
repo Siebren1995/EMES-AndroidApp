@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.content.ComponentName;
 import android.content.Context;
@@ -90,6 +91,27 @@ public class DeviceController {
         }
         Log.e(DEBUG, "Could not find the characteristic");
         return null;
+    }
+
+    public void readCharacteristic(CharacteristicName name)
+    {
+        BluetoothGattCharacteristic characteristic = getCharacteristic(UUID.fromString(name.getUUID()));
+        BluetoothGatt mBluetoothGatt = mBluetoothLeService.getBluetoothGatt();
+
+        mBluetoothGatt.setCharacteristicNotification(characteristic, true);
+
+        for (BluetoothGattDescriptor descriptor:characteristic.getDescriptors()) {
+            descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+            mBluetoothGatt.writeDescriptor(descriptor);
+        }
+        for (BluetoothGattDescriptor descriptor:characteristic.getDescriptors())
+        {
+            Log.e("BLE", "BluetoothGattDescriptor: "+descriptor.getUuid().toString());
+            boolean aapje = mBluetoothGatt.readDescriptor(descriptor);
+            byte[] bytes = descriptor.getValue();
+            if(bytes != null && aapje)
+                Log.e("BLE", bytes.toString());
+        }
     }
 
     /**

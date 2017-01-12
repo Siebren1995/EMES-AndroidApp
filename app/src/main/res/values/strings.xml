@@ -21,7 +21,8 @@
 
     <string name="section_format">Hello World from section: %1$d</string>
 
-    <string name="play_cue">Play cue</string>
+    <string name="manual_cue">Manual cue</string>
+    <string name="smart_cue">Smart cue</string>
     <string name="logging_time">Logging time (min)</string>
     <string name="display_time">Enter time</string>
 
