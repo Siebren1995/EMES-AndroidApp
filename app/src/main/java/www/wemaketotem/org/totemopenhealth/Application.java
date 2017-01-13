@@ -104,6 +104,11 @@ public class Application extends AppCompatActivity implements Observer{
 
         fragmentScan.registerObserver(this);
         fragmentScan.registerObserver(fragmentDevice);
+        //fragmentScan.registerObserver(fragmentCue);
+
+        DeviceController mDeviceController = fragmentDevice.getmDeviceController();
+        BluetoothLeService mBluetoothLeService = mDeviceController.getmBluetoothLeService();
+        mBluetoothLeService.storeDataServer(fragmentCue);
 
         tabItems.add(new TabItem("Scan", fragmentScan));
         tabItems.add(new TabItem("Data", fragmentData));
@@ -140,7 +145,7 @@ public class Application extends AppCompatActivity implements Observer{
      */
     @Override
     public void deviceConnected() {
-        mViewPager.setCurrentItem(4);
+        mViewPager.setCurrentItem(2);
     }
 
 

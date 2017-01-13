@@ -32,9 +32,7 @@ public class DeviceController {
      *
      */
     private DeviceController(){
-        mBluetoothLeService = new BluetoothLeService();//[2];
-//        mBluetoothLeService[0] = new BluetoothLeService();
-//        mBluetoothLeService[1] = new BluetoothLeService();
+        mBluetoothLeService = new BluetoothLeService();
     }
 
     /**
@@ -43,6 +41,11 @@ public class DeviceController {
      */
     public static DeviceController getInstance() {
         return mInstance;
+    }
+
+    public BluetoothLeService getmBluetoothLeService()
+    {
+        return mBluetoothLeService;
     }
 
     /**
@@ -55,6 +58,24 @@ public class DeviceController {
         ServiceConnection mServiceConnection = new ServiceConnectionPlus();
         Intent gattServiceIntent = new Intent(activity.getApplicationContext(), BluetoothLeService.class);
         activity.bindService(gattServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    public boolean setNotification(CharacteristicName name)
+    {
+        boolean retVal = false;
+
+        BluetoothGattCharacteristic characteristic = getCharacteristic(UUID.fromString(name.getUUID()));
+        if(characteristic != null)
+        {
+            BluetoothGatt mBluetoothGatt = mBluetoothLeService.getBluetoothGatt();
+            mBluetoothGatt.setCharacteristicNotification(characteristic, true); // enable internal permission to get notified
+
+            for (BluetoothGattDescriptor descriptor:characteristic.getDescriptors()) {
+                descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                retVal = mBluetoothGatt.writeDescriptor(descriptor); // enable external permission to get notified
+            }
+        }
+        return retVal;
     }
 
     /**
@@ -95,23 +116,7 @@ public class DeviceController {
 
     public void readCharacteristic(CharacteristicName name)
     {
-        BluetoothGattCharacteristic characteristic = getCharacteristic(UUID.fromString(name.getUUID()));
-        BluetoothGatt mBluetoothGatt = mBluetoothLeService.getBluetoothGatt();
 
-        mBluetoothGatt.setCharacteristicNotification(characteristic, true);
-
-        for (BluetoothGattDescriptor descriptor:characteristic.getDescriptors()) {
-            descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-            mBluetoothGatt.writeDescriptor(descriptor);
-        }
-        for (BluetoothGattDescriptor descriptor:characteristic.getDescriptors())
-        {
-            Log.e("BLE", "BluetoothGattDescriptor: "+descriptor.getUuid().toString());
-            boolean aapje = mBluetoothGatt.readDescriptor(descriptor);
-            byte[] bytes = descriptor.getValue();
-            if(bytes != null && aapje)
-                Log.e("BLE", bytes.toString());
-        }
     }
 
     /**

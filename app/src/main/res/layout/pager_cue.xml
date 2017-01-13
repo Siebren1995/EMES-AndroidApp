@@ -27,10 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="75dp"
             android:text="@string/smart_cue"/>
-            <!--android:clickable="false"
-            android:enabled="false"
-            android:checked="false" />
-            -->
+
         <include layout="@layout/horizontal_line" />
 
         <LinearLayout

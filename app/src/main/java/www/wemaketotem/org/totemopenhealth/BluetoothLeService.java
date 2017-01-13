@@ -15,13 +15,14 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Service for managing connection and data communication with a GATT server hosted on a
  * given Bluetooth LE device.
  */
-public class BluetoothLeService extends Service {
+public class BluetoothLeService extends Service implements Subject {
     private final static String TAG = BluetoothLeService.class.getSimpleName();
 
     private BluetoothManager mBluetoothManager;
@@ -29,11 +30,39 @@ public class BluetoothLeService extends Service {
     private String mBluetoothDeviceAddress;
     private BluetoothGatt mBluetoothGatt;
 
+    private static BLEDataServer dataServer;
+    private static ArrayList<Observer> observers = new ArrayList<>();
+
     public final static String ACTION_GATT_CONNECTED = "ACTION_GATT_CONNECTED";
     public final static String ACTION_GATT_DISCONNECTED = "ACTION_GATT_DISCONNECTED";
     public final static String ACTION_GATT_SERVICES_DISCOVERED = "ACTION_GATT_SERVICES_DISCOVERED";
     public final static String ACTION_DATA_AVAILABLE = "ACTION_DATA_AVAILABLE";
     public final static String EXTRA_DATA = "EXTRA_DATA";
+
+    public void storeDataServer(BLEDataServer server)
+    {
+        dataServer = server;
+        registerObserver(dataServer);
+    }
+
+    @Override
+    public void registerObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void notifyConnected() {
+        for(Observer observer:observers) {
+            observer.deviceConnected();
+        }
+    }
+
+    @Override
+    public void notifyDisconnected() {
+        for(Observer observer:observers) {
+            observer.deviceDisconnected();
+        }
+    }
 
     // Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.
@@ -49,11 +78,13 @@ public class BluetoothLeService extends Service {
                 // Attempts to discover services after successful connection.
                 Log.i(TAG, "Attempting to start service discovery:" +
                         mBluetoothGatt.discoverServices());
+                notifyConnected();
 
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 intentAction = ACTION_GATT_DISCONNECTED;
                 Log.i(TAG, "Disconnected from GATT server.");
                 broadcastUpdate(intentAction);
+                notifyDisconnected();
             }
             else
             {
@@ -79,6 +110,7 @@ public class BluetoothLeService extends Service {
             }
         }
 
+        // Retrieve BT LE Data
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic)
@@ -102,11 +134,16 @@ public class BluetoothLeService extends Service {
 
         Log.i(TAG, "broadcastUpdate: " + characteristic.getUuid().toString());
         final byte[] data = characteristic.getValue();
-        if (data != null && data.length > 0) {
+        if (data != null && data.length > 0)
+        {
             final StringBuilder stringBuilder = new StringBuilder(data.length);
             for (byte byteChar : data)
                 stringBuilder.append(String.format("%02X ", byteChar));
             intent.putExtra(EXTRA_DATA, new String(data) + "\n" + stringBuilder.toString());
+            if(action.equals(ACTION_DATA_AVAILABLE))
+                dataServer.storeData(data);
+
+
         }
         sendBroadcast(intent);
     }

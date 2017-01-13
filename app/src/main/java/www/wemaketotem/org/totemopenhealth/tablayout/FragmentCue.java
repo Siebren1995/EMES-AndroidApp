@@ -18,11 +18,14 @@ import android.widget.TextView;
 
 import java.util.concurrent.Executor;
 
+import www.wemaketotem.org.totemopenhealth.BLEDataServer;
+import www.wemaketotem.org.totemopenhealth.CharacteristicName;
 import www.wemaketotem.org.totemopenhealth.DeviceController;
 import www.wemaketotem.org.totemopenhealth.Metronome;
+import www.wemaketotem.org.totemopenhealth.Observer;
 import www.wemaketotem.org.totemopenhealth.R;
 
-public class FragmentCue extends Fragment {
+public class FragmentCue extends Fragment implements BLEDataServer, Observer {
 
     private Metronome metronome;
     private Executor executor;
@@ -34,7 +37,7 @@ public class FragmentCue extends Fragment {
     private TextView tvAudible;
     private CheckBox cbHaptic;
     private TextView tvHaptic;
-
+    private boolean isConnected;
     public Switch sSmartCue;
 
     public static FragmentCue newInstance() {
@@ -46,6 +49,38 @@ public class FragmentCue extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.pager_cue, container, false);
     }
+
+    @Override
+    public void storeData(byte[] data)
+    {
+        if(sSmartCue.isChecked() == true)
+        {
+            if(data[1] > 1)
+            {
+                metronome.startPlayback();
+                if(metronome.isThreadRunning() == false)
+                    executor.execute(metronome);
+            }
+            else if(data[1] == 0)
+            {
+                metronome.stopPlayback();
+            }
+        }
+    }
+
+    @Override
+    public void deviceConnected()
+    {
+        isConnected = true;
+    }
+
+    @Override
+    public void deviceDisconnected()
+    {
+        metronome.stopPlayback();
+        isConnected = false;
+    }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
@@ -73,8 +108,16 @@ public class FragmentCue extends Fragment {
             @Override
             public void onClick(View v)
             {
-                //DeviceController mDeviceController = getActivity().getFragmentManager().findFragmentById(R.id.)
-                //readCharacteristic
+                DeviceController deviceController = DeviceController.getInstance();
+                if(!deviceController.setNotification(CharacteristicName.READCHAR)) // TODO single set
+                {
+                    Log.e("BLE", "Failed to set Characteristic 'READ'");
+                }
+                sPlayCue.setEnabled(!sSmartCue.isChecked());
+                if(sSmartCue.isChecked() == false)
+                {
+                    metronome.stopPlayback();
+                }
             }
         });
 
@@ -160,6 +203,8 @@ public class FragmentCue extends Fragment {
         public void onCheckedChanged(CompoundButton buttonView,
                                         boolean isChecked)
         {
+            if(isConnected)
+                sSmartCue.setEnabled(!sPlayCue.isChecked());
             if(isChecked)
             {
                 metronome.startPlayback();

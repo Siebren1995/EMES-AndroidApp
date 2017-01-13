@@ -1,5 +1,7 @@
 package www.wemaketotem.org.totemopenhealth.tablayout;
 
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,7 +22,9 @@ import android.widget.Toast;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.UUID;
 
+import www.wemaketotem.org.totemopenhealth.BluetoothLeService;
 import www.wemaketotem.org.totemopenhealth.CharacteristicName;
 import www.wemaketotem.org.totemopenhealth.DeviceController;
 import www.wemaketotem.org.totemopenhealth.Observer;
@@ -62,6 +66,11 @@ public class FragmentDevice extends Fragment implements Observer {
         initSwitches();
         initButton();
         initEditText();
+    }
+
+    public DeviceController getmDeviceController()
+    {
+        return mDeviceController.getInstance();
     }
 
     /**
@@ -202,12 +211,12 @@ public class FragmentDevice extends Fragment implements Observer {
     @Override
     public void deviceConnected() {
         tName.setText(mDeviceController.getBluetoothDevice().getName());
-        long time = System.currentTimeMillis();
-        Log.d("Time", "time is " + time);
-
-        ByteBuffer buffer = ByteBuffer.allocate(Long.SIZE);
-        buffer.putLong(time);
-        mDeviceController.writeCharacteristic(CharacteristicName.WRITECHAR, buffer.array());
+//        long time = System.currentTimeMillis();
+//        Log.d("Time", "time is " + time);
+//
+//        ByteBuffer buffer = ByteBuffer.allocate(Long.SIZE);
+//        buffer.putLong(time);
+//        mDeviceController.writeCharacteristic(CharacteristicName.WRITECHAR, buffer.array());
         resetWidgets();
     }
 
