@@ -177,13 +177,11 @@ public class FragmentScan extends Fragment implements Subject{
 
     @Override
     public void onPause() {
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
         super.onPause();
     }
 
     @Override
     public void onResume() {
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onResume();
         getActivity().registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
     }

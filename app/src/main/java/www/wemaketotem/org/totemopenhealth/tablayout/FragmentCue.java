@@ -55,13 +55,13 @@ public class FragmentCue extends Fragment implements BLEDataServer, Observer {
     {
         if(sSmartCue.isChecked() == true)
         {
-            if(data[1] > 1)
+            if(data[0] > 1)
             {
                 metronome.startPlayback();
                 if(metronome.isThreadRunning() == false)
                     executor.execute(metronome);
             }
-            else if(data[1] == 0)
+            else if(data[0] == 0)
             {
                 metronome.stopPlayback();
             }
